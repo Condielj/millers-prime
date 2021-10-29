@@ -20,23 +20,16 @@ Fsmall3 = 21
 def prime_test(n):
     if n == 1:
         return False
+    elif n == 2:
+        return True
+    elif n % 2 == 0:
+        return False
 
     e = n - 1
     b = random.randint(2, e)
 
-    is_prime = False
-
-    if n == 2:
-        is_prime = True
-
-    elif n % 2 == 0:
-        is_prime = False
-
-    elif pow(b, e, n) == 1:
-        is_prime = True
-
-    return is_prime
-
+    if pow(b, e, n) == 1:
+        return True
 
 def prime_loop(n):
     is_prime = True
@@ -46,6 +39,16 @@ def prime_loop(n):
             is_prime = False
     return is_prime
 
+def program_test():
+    primes = 0
+    composites = 0
+    for i in range(1, 300001):
+        if prime_loop(i):
+            primes += 1
+        else:
+            composites += 1
+    return (primes, composites)
+
 
 def main():
     was_negative = False
@@ -54,7 +57,7 @@ def main():
     print("Test Sample Numbers:")
     print("(a, b, c) = Large prime numbers. (d, e, f) = Small prime numbers. ")
     print("(t, u, v) = Large composite numbers.  (x, y, z) = Small composite numbers. ")
-    print("(n) = Enter own integer. ")
+    print("(p) Test all numbers between 1 - 300,000. (n) = Enter own integer. ")
     inp = input("Please make a selection: ")
 
     if inp == 'a':
@@ -82,6 +85,12 @@ def main():
         n = Fsmall2
     elif inp == "z":
         n = Fsmall3
+    
+    elif inp == "p":
+        primes, composites = program_test()
+        print("Tested numbers between 1 - 300,000. ")
+        print("Found", primes, "primes and", composites, "composites. ")
+        return
 
     elif inp == "n":
         n = input("Please enter an integer: ")
@@ -91,6 +100,8 @@ def main():
         n = int(n)
     else:
         print("Input not recognized.  Goodbye.  ")
+        return
+
 
     if prime_loop(n):
         print("PRIME")
