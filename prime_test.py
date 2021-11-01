@@ -33,16 +33,16 @@ def prime_test(n):
 
 def prime_loop(n):
     is_prime = True
-    for i in range(20):
+    for i in range(75):
         passed = prime_test(n)
         if not passed:
             is_prime = False
     return is_prime
 
-def program_test():
+def program_test(lower_bound, upper_bound):
     primes = 0
     composites = 0
-    for i in range(1, 300001):
+    for i in range(lower_bound, upper_bound+1):
         if prime_loop(i):
             primes += 1
         else:
@@ -57,7 +57,8 @@ def main():
     print("Test Sample Numbers:")
     print("(a, b, c) = Large prime numbers. (d, e, f) = Small prime numbers. ")
     print("(t, u, v) = Large composite numbers.  (x, y, z) = Small composite numbers. ")
-    print("(p) Test all numbers between 1 - 300,000. (n) = Enter own integer. ")
+    print("(p) Test all numbers between 1 - 300,000. (o) Test all numbers between bounds of your choice. ")
+    print("(n) = Enter integer of your choice. ")
     inp = input("Please make a selection: ")
 
     if inp == 'a':
@@ -87,11 +88,40 @@ def main():
         n = Fsmall3
     
     elif inp == "p":
-        primes, composites = program_test()
+        print("Testing... ")
+        primes, composites = program_test(1, 300000)
+        print("Done! ")
         print("Tested numbers between 1 - 300,000. ")
         print("Found", primes, "primes and", composites, "composites. ")
-        return
+        if primes > 0:
+            return True
+        else:
+            return False
 
+    elif inp == "o":
+        lower = int(input("Please enter the lower bound: "))
+        upper = int(input("Please enter the upper bound: "))
+        if lower > upper:
+            print("Testing... ")
+            primes, composites = program_test(upper, lower)
+        elif lower == upper:
+            if prime_loop(lower):
+                print("PRIME")
+                print(lower, "is a prime number. ")
+                return True
+            else:
+                print("COMPOSITE")
+                print(lower, "is a composite number. ")
+        else:
+            print("Testing... ")
+            primes, composites = program_test(lower, upper)
+    
+        print("Done! ")
+        print("Tested numbers between", lower, "-", str(upper) + ". ")
+        print("Found", primes, "primes and", composites, "composites. ")
+        return True
+
+        
     elif inp == "n":
         n = input("Please enter an integer: ")
         if n[0] == "-":
